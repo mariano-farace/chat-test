@@ -34,7 +34,7 @@ userSchema.statics.login = async function (email, password) {
     if (isAuthenticated) {
       return user;
     }
-    throw Error('Incorrect password');
+    throw Error('Incorrect password'); // TODO cambiar esto si se renderiza para que no delate que paso
   } else {
     throw Error('Incorrect email');
   }
