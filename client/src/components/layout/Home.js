@@ -5,7 +5,7 @@ import { UserContext } from "../../UserContext"
 const Home = () => {
     const { user, setUser } = useContext(UserContext);
     return (
-        <div>El usuario logueado es: { user? user.name : "Nadie"}</div>
+        <div>This is Home. El usuario logueado es: { user? user.name : "Nadie"}</div>
     )
 }
 
