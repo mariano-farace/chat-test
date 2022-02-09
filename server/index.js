@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+// TODO por que esta en las cookies? podría modificar esto mas adelante para que vaya en un header
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -21,6 +22,8 @@ app.use(cookieParser());
 app.use(authRoutes);
 
 const PORT = process.env.PORT || 5000;
+
+// TODO desacoplar mongo
 
 const mongoDB = 'mongodb://localhost:27017/chat-app';
 
