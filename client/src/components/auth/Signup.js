@@ -14,7 +14,7 @@ const Signup = () => {
         setEmailError('');
         setNameError('');
         setPasswordError('');
-        console.log(name, email, password)
+        console.log(name, email, password) /*TODO borrar estos logs */
         try {
             const res = await fetch('http://localhost:5000/signup', {
                 method: 'POST',
