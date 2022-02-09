@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { UserContext } from '../../UserContext';
+import { Navigate } from 'react-router-dom';
+
 const Signup = () => {
     const { user, setUser } = useContext(UserContext);
 
@@ -36,6 +38,9 @@ const Signup = () => {
         } catch (error) {
             console.log(error)
         }
+    }
+    if (user) {
+        return <Navigate to="/" />
     }
 
     return (
