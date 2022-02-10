@@ -5,6 +5,7 @@ import Signup from './components/auth/Signup';
 import { UserContext } from './UserContext';
 import React, { useEffect, useState } from 'react';
 import Home from './components/layout/Home';
+import Login from './components/auth/Login'
 
 function App() {
 
@@ -19,6 +20,8 @@ function App() {
              {/* TODO ver por que usa "element" en vez de "component" creo que es una cosa de versiones*/}
              <Route exact path="/" element={<Home/>} />
             <Route path="/signup" element= {<Signup />} />
+            <Route path="/login" element= {<Login />} />
+
           </Routes>
           </UserContext.Provider>
       </div>
