@@ -36,14 +36,13 @@ function Login() {
       if (data.user) {
         setUser(data.user)
       }
-
-      if (user) {
-        console.log("entra al navigate")
-        return <Navigate to="/" />
-      }
     } catch (error) {
       console.log(error)
     }
+  }
+  if (user) {
+    console.log("entra al navigate")
+    return <Navigate to="/" />
   }
 
   return (
