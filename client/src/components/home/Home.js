@@ -1,9 +1,17 @@
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { Navigate } from "react-router-dom"
 import { UserContext } from "../../UserContext"
+import RoomList from "./RoomList"
 
 function Home() {
   const { user, setUser } = useContext(UserContext)
+
+  const roomState = [
+    { _id: "6202c4a8f8acc375159aea14", name: "Room 1", __v: 0 },
+    { _id: "6202c4a8f8acc375159aea14", name: "Room 2", __v: 0 },
+  ]
+
+  const [rooms, setRooms] = useState(roomState)
 
   if (!user) {
     return <Navigate to="/login" />
@@ -36,7 +44,7 @@ function Home() {
           </div>
         </div>
         <div className="col s6 m5 offset-1">
-          {/* <RoomList rooms={rooms} /> */}
+          <RoomList rooms={rooms} />
         </div>
       </div>
     </div>
