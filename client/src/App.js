@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 import Navbar from "./components/layout/Navbar"
 import Signup from "./components/auth/Signup"
 import { UserContext } from "./UserContext"
-import Home from "./components/layout/Home"
+import Home from "./components/home/Home"
 import Login from "./components/auth/Login"
 
 function App() {
