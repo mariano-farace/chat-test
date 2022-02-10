@@ -1,8 +1,8 @@
-import React from 'react';
-import SignedOutMenu from './SignedOutMenu';
+import React from "react"
+import SignedOutMenu from "./SignedOutMenu"
 
 function Navbar() {
-  const menu = <SignedOutMenu />;
+  const menu = <SignedOutMenu />
   return (
     <>
       <nav className="green">
@@ -26,7 +26,7 @@ function Navbar() {
         {menu}
       </ul>
     </>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar
