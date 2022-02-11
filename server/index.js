@@ -28,7 +28,7 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).t
 
 const io = new Server(httpServer, {
   cors: {
-    origin: 'https://example.com',
+    origin: 'http://localhost:3000',
   },
 });
 
