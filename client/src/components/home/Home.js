@@ -1,10 +1,23 @@
 import React, { useContext, useState, useEffect } from "react"
 import { Navigate } from "react-router-dom"
+import io from "socket.io-client"
 import { UserContext } from "../../UserContext"
 import RoomList from "./RoomList"
 
+let socket // TODO poner esta variable adentro del useEffect
+
 function Home() {
   const { user, setUser } = useContext(UserContext)
+
+  const ENDPT = "localhost:5000"
+  useEffect(() => {
+    socket = io(ENDPT)
+    console.log("use effect de socket.io")
+    return () => {
+      socket.disconnect()
+      socket.off()
+    }
+  }, [])
 
   const roomState = [
     { _id: "6202c4a8f8acc375159aea14", name: "Room 1", __v: 0 },
