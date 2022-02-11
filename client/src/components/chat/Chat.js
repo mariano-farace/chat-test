@@ -1,7 +1,20 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
+
+import { UserContext } from "../../UserContext"
+import Input from "./Input"
+import Messages from "./Messages"
 
 function Chat() {
-  return <div>Ventana de Chat!</div>
+  const [message, setMessage] = useState("")
+
+  return (
+    <div className="outerContainer">
+      <div className="container">
+        {/* <Messages /> */}
+        <Input message={message} setMessage={setMessage} />
+      </div>
+    </div>
+  )
 }
 
 export default Chat
