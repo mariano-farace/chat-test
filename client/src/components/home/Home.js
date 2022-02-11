@@ -28,6 +28,12 @@ function Home() {
     })
   })
 
+  useEffect(() => {
+    socket.on("room-created", (newRoom) => {
+      setRooms([...rooms, newRoom])
+    })
+  }, [rooms])
+
   const handleSubmit = (e) => {
     e.preventDefault()
     socket.emit("create-room", room)

@@ -44,6 +44,7 @@ io.on('connection', (socket) => {
 
   socket.on('create-room', (name) => {
     const room = new Room({ name });
+    // Fijate que si pones socket.emit('room-created' , solamente se actualiza para el usuario que lo crea, el io.emit, lo emite a todos
     room.save().then((result) => { io.emit('room-created', result); });
   });
 });
