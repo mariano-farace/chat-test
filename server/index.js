@@ -1,4 +1,5 @@
 const express = require('express');
+const { Server } = require('socket.io');
 
 const app = express();
 const cors = require('cors');
@@ -11,8 +12,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-const http = require('http').createServer(app);
-
+const httpServer = require('http').createServer(app);
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 
@@ -21,14 +21,22 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(authRoutes);
 
-const PORT = process.env.PORT || 5000;
-
 // TODO desacoplar mongo
 
 const mongoDB = 'mongodb://localhost:27017/chat-app';
-
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log('connected')).catch((err) => console.log(err));
 
-http.listen(PORT, () => {
+const io = new Server(httpServer, {
+  cors: {
+    origin: 'https://example.com',
+  },
+});
+
+io.on('connection', (socket) => {
+  console.log('user connected on socket.id :', socket.id);
+});
+
+const PORT = process.env.PORT || 5000;
+httpServer.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
