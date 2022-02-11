@@ -38,6 +38,10 @@ const io = new Server(httpServer, {
 io.on('connection', (socket) => {
   console.log('user connected on socket.id :', socket.id);
 
+  Room.find().then((result) => {
+    socket.emit('rooms-in-db', result);
+  });
+
   socket.on('create-room', (name) => {
     const room = new Room({ name });
     room.save().then((result) => { io.emit('room-created', result); });

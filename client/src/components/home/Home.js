@@ -5,15 +5,11 @@ import { UserContext } from "../../UserContext"
 import RoomList from "./RoomList"
 
 let socket // TODO poner esta variable adentro del useEffect
-const roomsState = [
-  { _id: "6202c4a8f8acc375159aea14", name: "Room 1", __v: 0 },
-  { _id: "6202c4a8f8acc375159aea14", name: "Room 2", __v: 0 },
-]
 
 function Home() {
   const { user, setUser } = useContext(UserContext)
   const [room, setRoom] = useState("")
-  const [rooms, setRooms] = useState(roomsState) // TODO modificar este valor a []!!
+  const [rooms, setRooms] = useState([])
 
   const ENDPT = "localhost:5000"
   useEffect(() => {
@@ -25,6 +21,12 @@ function Home() {
       socket.off()
     }
   }, [])
+
+  useEffect(() => {
+    socket.on("rooms-in-db", (roomsInDB) => {
+      setRooms(roomsInDB)
+    })
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault()
