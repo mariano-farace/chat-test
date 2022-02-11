@@ -5,26 +5,32 @@ import { UserContext } from "../../UserContext"
 import RoomList from "./RoomList"
 
 let socket // TODO poner esta variable adentro del useEffect
+const roomsState = [
+  { _id: "6202c4a8f8acc375159aea14", name: "Room 1", __v: 0 },
+  { _id: "6202c4a8f8acc375159aea14", name: "Room 2", __v: 0 },
+]
 
 function Home() {
   const { user, setUser } = useContext(UserContext)
+  const [room, setRoom] = useState("")
+  const [rooms, setRooms] = useState(roomsState) // TODO modificar este valor a []!!
 
   const ENDPT = "localhost:5000"
   useEffect(() => {
     socket = io(ENDPT)
-    console.log("use effect de socket.io")
+    console.log("use effect de socket.io", socket)
     return () => {
+      console.log("llama al cleanup, socket.disconnect")
       socket.disconnect()
       socket.off()
     }
   }, [])
 
-  const roomState = [
-    { _id: "6202c4a8f8acc375159aea14", name: "Room 1", __v: 0 },
-    { _id: "6202c4a8f8acc375159aea14", name: "Room 2", __v: 0 },
-  ]
-
-  const [rooms, setRooms] = useState(roomState)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    socket.emit("create-room", room)
+    setRoom("")
+  }
 
   if (!user) {
     return <Navigate to="/login" />
@@ -39,7 +45,7 @@ function Home() {
               <span className="card-title">
                 Welcome {user ? user.name : ""}
               </span>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="input-field col s12">
                     <input
@@ -47,6 +53,8 @@ function Home() {
                       id="room"
                       type="text"
                       className="validate"
+                      value={room}
+                      onChange={(e) => setRoom(e.target.value)}
                     />
                     <label htmlFor="room">Room</label>
                   </div>
