@@ -71,7 +71,7 @@ function Login() {
               id="password"
               type="password"
               className="validate"
-              value={email}
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
