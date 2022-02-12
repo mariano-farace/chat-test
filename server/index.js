@@ -14,6 +14,7 @@ const corsOptions = {
 
 const httpServer = require('http').createServer(app);
 const mongoose = require('mongoose');
+const { join } = require('path');
 const authRoutes = require('./routes/authRoutes');
 const Room = require('./models/Room');
 
@@ -26,8 +27,7 @@ app.use(authRoutes);
 
 const mongoDB = 'mongodb://localhost:27017/chat-app';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log('connected')).catch((err) => console.log(err));
-
-console.log('hola, paso por aca!');
+const { addUser } = require('./userUtils');
 
 const io = new Server(httpServer, {
   cors: {
@@ -46,6 +46,17 @@ io.on('connection', (socket) => {
     const room = new Room({ name });
     // Fijate que si pones socket.emit('room-created' , solamente se actualiza para el usuario que lo crea, el io.emit, lo emite a todos
     room.save().then((result) => { io.emit('room-created', result); });
+  });
+
+  socket.on('join', ({ name, room_id, user_id }) => {
+    const { error, user } = addUser(socket.id, name, user_id, room_id);
+
+    socket.join(room_id);
+    if (error) {
+      console.log('join error', error);
+    } else {
+      console.log('joined user: ', user);
+    }
   });
 });
 
