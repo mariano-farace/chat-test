@@ -15,20 +15,27 @@ function Chat() {
 
   useEffect(() => {
     socket = io(ENDPT)
+    console.log('Se dispara el evento emit "join"')
     socket.emit("join", { name: user.name, room_id, user_id: user._id })
   }, [])
 
-  // const sendMessage = (e) => {
-  //   e.preventDefault()
-  //   if (message) {
-  //   }
-  // }
+  const sendMessage = (e) => {
+    e.preventDefault()
+    if (message) {
+      console.log(message)
+      socket.emit("sendMessage", message, room_id, () => setMessage(""))
+    }
+  }
 
   return (
     <div className="outerContainer">
       <div className="container">
         {/* <Messages /> */}
-        <Input message={message} setMessage={setMessage} />
+        <Input
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
       </div>
     </div>
   )

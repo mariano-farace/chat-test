@@ -1,17 +1,18 @@
 import React from "react"
 import "./Input.css"
 
-function Input({ message, setMessage }) {
+function Input({ message, setMessage, sendMessage }) {
   return (
-    <form className="form">
+    <form action="" onSubmit={sendMessage} className="form">
       <input
         type="text"
         className="input"
         placeholder="Type a message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        onKeyPress={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
       />
-      <button className="sendButton">Send Message</button>
+      <button className="sendButton">Send</button>
     </form>
   )
 }
