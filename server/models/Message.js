@@ -10,7 +10,7 @@ const messageSchema = new mongoose.Schema({
 
   room_id: { type: String, required: true },
 
-});
+}, { timestamps: true });
 
 const Message = mongoose.model('message', messageSchema);
 module.exports = Message;
