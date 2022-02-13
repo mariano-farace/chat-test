@@ -80,6 +80,12 @@ io.on('connection', (socket) => {
       setMessageCallback();
     });
   });
+
+  socket.on('get-message-history', (room_id) => {
+    Message.find({ room_id }).then((result) => {
+      socket.emit('message-history', result);
+    });
+  });
 });
 
 const PORT = process.env.PORT || 5000;
