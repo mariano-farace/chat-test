@@ -44,7 +44,8 @@ io.on('connection', (socket) => {
 
   socket.on('create-room', (name) => {
     const room = new Room({ name });
-    // Fijate que si pones socket.emit('room-created' , solamente se actualiza para el usuario que lo crea, el io.emit, lo emite a todos
+    // Fijate que si pones socket.emit('room-created', solamente se
+    // se actualiza para el usuario que lo crea, el io.emit, lo emite a todos
     room.save().then((result) => { io.emit('room-created', result); });
   });
 
@@ -57,6 +58,17 @@ io.on('connection', (socket) => {
     } else {
       console.log('joined user: ', user);
     }
+  });
+
+  socket.on('sendMessage', (message, room_id, setMessageCallback) => {
+    const msgToStore = {
+      room_id,
+      text: message,
+    };
+    console.log('el backend recibio este mensaje: ', message);
+    io.to(room_id).emit('newMessage', msgToStore);
+    // Llama al setMessage en el front, para que se limpie es espacio del mensaje
+    setMessageCallback();
   });
 });
 

@@ -12,6 +12,7 @@ function Chat() {
   const { user, setUser } = useContext(UserContext)
   const { room_id, room_name } = useParams()
   const [message, setMessage] = useState("")
+  const [messageLog, setMessageLog] = useState("")
 
   useEffect(() => {
     socket = io(ENDPT)
@@ -24,8 +25,15 @@ function Chat() {
     if (message) {
       console.log(message)
       socket.emit("sendMessage", message, room_id, () => setMessage(""))
+      setMessage("")
     }
   }
+
+  useEffect(() => {
+    socket.on("newMessage", (newMessage) => {
+      setMessageLog(...messageLog, newMessage)
+    })
+  })
 
   return (
     <div className="outerContainer">
