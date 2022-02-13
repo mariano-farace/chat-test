@@ -27,7 +27,7 @@ app.use(authRoutes);
 
 const mongoDB = 'mongodb://localhost:27017/chat-app';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log('connected')).catch((err) => console.log(err));
-const { addUser, getUser } = require('./userUtils');
+const { addUser, getUser, removeUser } = require('./userUtils');
 const Message = require('./models/Message');
 
 const io = new Server(httpServer, {
@@ -85,6 +85,10 @@ io.on('connection', (socket) => {
     Message.find({ room_id }).then((result) => {
       socket.emit('message-history', result);
     });
+  });
+
+  socket.on('disconnect', () => {
+    const user = removeUser(socket.id);
   });
 });
 
