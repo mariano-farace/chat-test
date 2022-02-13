@@ -7,7 +7,11 @@ function Messages({ messageLog, user_id }) {
   return (
     <STB className="messages">
       {messageLog.map((message) => (
-        <SingleMessage message={message} current_uid={user_id} />
+        <SingleMessage
+          key={message._id}
+          current_uid={user_id}
+          message={message}
+        />
       ))}
     </STB>
   )

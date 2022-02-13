@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import { UserContext } from "../../UserContext"
 import Input from "./Input"
 import Messages from "./Messages"
+import "./Chat.css"
 
 let socket
 
