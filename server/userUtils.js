@@ -1,5 +1,7 @@
 const users = [];
 
+// Estos metodos son necesarios porque el socket cambia siempre
+
 const addUser = (socket_id, name, user_id, room_id) => {
   // Evita entrar al chat dos veces
   const exists = users.find((user) => user.room_id === room_id && user.user_id === user_id);
@@ -14,4 +16,6 @@ const addUser = (socket_id, name, user_id, room_id) => {
   return { user };
 };
 
-module.exports = { addUser };
+const getUser = (socket_id) => users.find((user) => user.socket_id === socket_id);
+
+module.exports = { addUser, getUser };

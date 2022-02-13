@@ -27,7 +27,8 @@ app.use(authRoutes);
 
 const mongoDB = 'mongodb://localhost:27017/chat-app';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log('connected')).catch((err) => console.log(err));
-const { addUser } = require('./userUtils');
+const { addUser, getUser } = require('./userUtils');
+const Message = require('./models/Message');
 
 const io = new Server(httpServer, {
   cors: {
@@ -61,14 +62,23 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', (message, room_id, setMessageCallback) => {
-    const msgToStore = {
+    const user = getUser(socket.id);
+
+    const messageToStore = {
+      name: user.name,
+      user_id: user.user_id,
       room_id,
       text: message,
     };
+
     console.log('el backend recibio este mensaje: ', message);
-    io.to(room_id).emit('newMessage', msgToStore);
-    // Llama al setMessage en el front, para que se limpie es espacio del mensaje
-    setMessageCallback();
+
+    const msg = new Message(messageToStore);
+    msg.save().then((result) => {
+      io.to(room_id).emit('newMessage', result);
+      // Llama al setMessage en el front, para que se limpie es espacio de escribir el mensaje
+      setMessageCallback();
+    });
   });
 });
 
