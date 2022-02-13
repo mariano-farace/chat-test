@@ -3,11 +3,11 @@ import STB from "react-scroll-to-bottom"
 import SingleMessage from "./SingleMessage"
 import "./Messages.css"
 
-function Messages({ messages, user_id }) {
+function Messages({ messageLog, user_id }) {
   return (
     <STB className="messages">
-      {messages.map((message) => (
-        <SingleMessage />
+      {messageLog.map((message) => (
+        <SingleMessage message={message} current_uid={user_id} />
       ))}
     </STB>
   )

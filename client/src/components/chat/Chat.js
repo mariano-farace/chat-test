@@ -12,7 +12,7 @@ function Chat() {
   const { user, setUser } = useContext(UserContext)
   const { room_id, room_name } = useParams()
   const [message, setMessage] = useState("")
-  const [messageLog, setMessageLog] = useState("")
+  const [messageLog, setMessageLog] = useState([])
 
   useEffect(() => {
     socket = io(ENDPT)
@@ -31,14 +31,14 @@ function Chat() {
 
   useEffect(() => {
     socket.on("newMessage", (newMessage) => {
-      setMessageLog(...messageLog, newMessage)
+      setMessageLog([...messageLog, newMessage])
     })
   })
 
   return (
     <div className="outerContainer">
       <div className="container">
-        {/* <Messages /> */}
+        <Messages messageLog={messageLog} user_id={user._id} />
         <Input
           message={message}
           setMessage={setMessage}
