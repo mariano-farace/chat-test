@@ -1,5 +1,7 @@
 const express = require('express');
 const { Server } = require('socket.io');
+const { join } = require('path');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const cors = require('cors');
@@ -14,7 +16,12 @@ const corsOptions = {
 
 const httpServer = require('http').createServer(app);
 const mongoose = require('mongoose');
-const { join } = require('path');
+const {
+  JWT_SECRET,
+  COOKIE_NAME,
+  CLIENT_ROOT_URI,
+} = require('./config');
+const { getGoogleAuthURL, getGoogleUser } = require('./controllers/google-auth');
 const authRoutes = require('./routes/authRoutes');
 const Room = require('./models/Room');
 
@@ -23,12 +30,35 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(authRoutes);
 
-// TODO desacoplar mongo
+//! Google Auth
 
+// Getting google auth login URL
+const googleAuthURL = getGoogleAuthURL();
+
+app.get('/auth/google/url', (req, res) => res.redirect(googleAuthURL));
+
+app.get('/login/google-auth', async (req, res) => {
+  const { code } = req.query;
+  console.log('el puto codigo: ', code);
+  const googleUser = await getGoogleUser({ code });
+  console.log('result de getGoogleUser:::', googleUser);
+  const token = jwt.sign(googleUser, JWT_SECRET);
+  res.cookie(COOKIE_NAME, token, {
+    maxAge: 900000,
+    httpOnly: true,
+    secure: false,
+  });
+  console.log('el token que deberia haber: ', token);
+  res.redirect(CLIENT_ROOT_URI);
+});
+
+//! MONGO
 const mongoDB = 'mongodb://localhost:27017/chat-app';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log('connected')).catch((err) => console.log(err));
 const { addUser, getUser, removeUser } = require('./userUtils');
 const Message = require('./models/Message');
+
+//! SOCKET.IO
 
 const io = new Server(httpServer, {
   cors: {
