@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { Navigate } from "react-router-dom"
 import GoogleButton from "react-google-button"
 import { UserContext } from "../../UserContext"
@@ -11,6 +11,7 @@ function Login() {
   const [nameError, setNameError] = useState("")
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
+  const [googleAuthURL, setGoogleAuthURL] = useState("")
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -26,12 +27,12 @@ function Login() {
         body: JSON.stringify({ name, email, password }),
         headers: { "Content-Type": "application/json" },
       })
-      const data = await res.json() // TODO por que necesita await???????????' https://developer.mozilla.org/en-US/docs/Web/API/Response/json
+      const data = await res.json()
       console.log("data!!!!!!", data)
 
       if (data.errors) {
         setEmailError(data.errors.email)
-        setNameError(data.errors.name) // TODO borrar esto, porque no se esta usando
+        setNameError(data.errors.name)
         setPasswordError(data.errors.password)
       }
       if (data.user) {
@@ -42,33 +43,21 @@ function Login() {
     }
   }
 
-  // useEffect(() => {
-  //   // TODO try catch?
-  //   async function fetchGoogleAuthUrl() {
-  //     // You can await here
-  //     const googleAuthUrl = await fetch(
-  //       "http://localhost:5000/auth/google/url",
-  //       {
-  //         credentials: "include",
-  //       }
-  //     )
-  //     // ...
-  //   }
-  //   fetchGoogleAuthUrl()
-  // }, [])
+  useEffect(() => {
+    // TODO try catch?
+    async function fetchGoogleAuthUrl() {
+      // You can await here
+      const response = await fetch("http://localhost:5000/auth/google/url", {
+        credentials: "include",
+      })
+      const fetchedURL = await response.json(response)
+      console.log("al menos para por el fetch")
+      console.log("googleAuthURL", fetchedURL)
 
-  const onClickGoogle = async () => {
-    try {
-      const googleAuthUrl = await fetch(
-        "http://localhost:5000/auth/google/url",
-        {
-          credentials: "include",
-        }
-      )
-    } catch (error) {
-      console.log(error)
+      setGoogleAuthURL(fetchedURL)
     }
-  }
+    fetchGoogleAuthUrl()
+  }, [])
 
   if (user) {
     console.log("entra al navigate")
@@ -113,14 +102,9 @@ function Login() {
         <button className="btn">Login</button>
         <GoogleButton
           onClick={() => {
-            onClickGoogle()
+            window.location.href = googleAuthURL
           }}
         />
-        <div className="App">
-          <a href="https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?access_type=offline&prompt=consent&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&response_type=code&client_id=906814864212-1crt34p93h43uc9f70jl6sdqkldvkaer.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Flogin%2Fgoogle-auth&flowName=GeneralOAuthFlow">
-            LOGIN WITH GOOGLE
-          </a>
-        </div>
       </form>
     </div>
   )

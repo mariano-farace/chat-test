@@ -8,11 +8,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const httpServer = require('http').createServer(app);
 const { createJWT } = require('./controllers/auth-controllers');
-const {
-  JWT_SECRET,
-  COOKIE_NAME,
-  CLIENT_ROOT_URI,
-} = require('./config');
+const { JWT_SECRET, COOKIE_NAME, CLIENT_ROOT_URI } = require('./config');
 const { getGoogleAuthURL, verifyGoogleAuthToken, googleAuthLog } = require('./controllers/google-auth-controllers');
 
 // TODO por que esta en las cookies? podría modificar esto mas adelante para que vaya en un header
@@ -35,8 +31,10 @@ app.use(authRoutes);
 
 // Getting google auth login URL
 const googleAuthURL = getGoogleAuthURL();
-
-app.get('/auth/google/url', (req, res) => res.redirect(googleAuthURL));
+console.log('googleAuthURL', googleAuthURL);
+app.get('/auth/google/url', (req, res) => {
+  res.json(googleAuthURL);
+});
 
 app.get('/login/google-auth', googleAuthLog);
 
