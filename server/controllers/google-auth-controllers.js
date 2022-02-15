@@ -27,7 +27,7 @@ const oauth2Client = new google.auth.OAuth2(
 Function to get the auth URL. Esta es la url que el usuario hace click para loguearse!
  */
 
-function getGoogleAuthURL() {
+function getGoogleAuthURL(req, res) {
   /*
   * Generate a url that asks permissions to the user's email and profile
   *
@@ -40,11 +40,13 @@ function getGoogleAuthURL() {
     'https://www.googleapis.com/auth/userinfo.email',
   ];
 
-  return oauth2Client.generateAuthUrl({
+  const googleAuthURL = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     prompt: 'consent',
     scope: scopes, // If you only need one scope you can pass it as string
   });
+
+  res.json(googleAuthURL);
 }
 
 /*

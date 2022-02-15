@@ -11,6 +11,8 @@ const { createJWT } = require('./controllers/auth-controllers');
 const { JWT_SECRET, COOKIE_NAME, CLIENT_ROOT_URI } = require('./config');
 const { getGoogleAuthURL, verifyGoogleAuthToken, googleAuthLog } = require('./controllers/google-auth-controllers');
 const authRoutes = require('./routes/authRoutes');
+const googleAuthRoutes = require('./routes/googleAuthRoutes');
+
 const Room = require('./models/Room');
 const { startDb } = require('./db');
 
@@ -24,27 +26,17 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(authRoutes);
-
+app.use(googleAuthRoutes);
 // DB initialization
 startDb();
 
 //! Google Auth
 
 // Getting google auth login URL
-const googleAuthURL = getGoogleAuthURL();
-app.get('/auth/google/url', (req, res) => {
-  res.json(googleAuthURL);
-});
-
-app.get('/login/google-auth', googleAuthLog);
-
-app.get('/google-login-redirect', verifyGoogleAuthToken);
-
-const { addUser, getUser, removeUser } = require('./userUtils');
-
-const Message = require('./models/Message');
 
 //! SOCKET.IO
+const Message = require('./models/Message');
+const { addUser, getUser, removeUser } = require('./userUtils');
 
 const io = new Server(httpServer, {
   cors: {
