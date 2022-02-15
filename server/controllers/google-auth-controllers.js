@@ -1,5 +1,8 @@
 const { google } = require('googleapis');
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
 const {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
@@ -13,7 +16,7 @@ const {
  * Create the google auth object which gives us access to talk to google's apis.
  * Will connect to Google when we want it to
  */
-
+// TODO crear funcion y llamarla en el lugar que se necesita
 const oauth2Client = new google.auth.OAuth2(
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
@@ -68,4 +71,46 @@ async function getGoogleUser({ code }) {
   return googleUser;
 }
 
-module.exports = { getGoogleAuthURL, getGoogleUser };
+async function googleAuthLog(req, res) {
+  const { code } = req.query;
+  console.log('el puto codigo: ', code);
+  const googleUser = await getGoogleUser({ code });
+  console.log('result de getGoogleUser:::', googleUser);
+  try {
+    let user = await User.findOne({ email: googleUser.email });
+    if (!user) {
+      console.log('el user no existe, crea uno');
+      user = await User.create({ name: googleUser.name, email: googleUser.email, password: 'isOauth: true' });
+    }
+    const maxAge = (24 * 60 * 60);
+
+    const token = jwt.sign({ user }, 'chatroom secret', {
+      expiresIn: maxAge,
+    });
+    res.cookie(COOKIE_NAME, token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.redirect(CLIENT_ROOT_URI);
+    // res.status(201).json({ user });
+
+    console.log('el user existe');
+    console.log(user);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+}
+
+async function verifyGoogleAuthToken(req, res) {
+  console.log('google-login-redirect Route!');
+  try {
+    const decodedToken = jwt.verify(req.cookies[COOKIE_NAME], 'chatroom secret');
+    const { user } = decodedToken;
+    res.status(201).json(user);
+  } catch (err) {
+    console.log(err);
+    res.send(null);
+  }
+}
+
+module.exports = {
+  getGoogleAuthURL, getGoogleUser, googleAuthLog, verifyGoogleAuthToken,
+};
