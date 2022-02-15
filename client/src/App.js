@@ -7,6 +7,7 @@ import { UserContext } from "./UserContext"
 import Home from "./components/home/Home"
 import Login from "./components/auth/Login"
 import Chat from "./components/chat/Chat"
+import Redirect from "./components/auth/Redirect"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -22,6 +23,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/chat/:room_id/:room_name" element={<Chat />} />
+            <Route path="/google-login-redirect" element={<Redirect />} />
           </Routes>
         </UserContext.Provider>
       </div>

@@ -16,6 +16,8 @@ const corsOptions = {
 
 const httpServer = require('http').createServer(app);
 const mongoose = require('mongoose');
+const { createJWT } = require('./controllers/authControllers');
+const User = require('./models/User');
 const {
   JWT_SECRET,
   COOKIE_NAME,
@@ -42,14 +44,63 @@ app.get('/login/google-auth', async (req, res) => {
   console.log('el puto codigo: ', code);
   const googleUser = await getGoogleUser({ code });
   console.log('result de getGoogleUser:::', googleUser);
-  const token = jwt.sign(googleUser, JWT_SECRET);
-  res.cookie(COOKIE_NAME, token, {
-    maxAge: 900000,
-    httpOnly: true,
-    secure: false,
-  });
-  console.log('el token que deberia haber: ', token);
-  res.redirect(CLIENT_ROOT_URI);
+  // //!mY NEW CODE PONER EN TRY CATCH BLOCK
+  try {
+    let user = await User.findOne({ email: googleUser.email });
+    if (!user) {
+      console.log('el user no existe, crea uno');
+      user = await User.create({ name: googleUser.name, email: googleUser.email, password: 'isOauth: true' });
+    }
+    const maxAge = (24 * 60 * 60);
+
+    const token = jwt.sign({ user }, 'chatroom secret', {
+      expiresIn: maxAge,
+    });
+    res.cookie(COOKIE_NAME, token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.redirect(CLIENT_ROOT_URI);
+    // res.status(201).json({ user });
+
+    console.log('el user existe');
+    console.log(user);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+  // //!mY NEW CODE
+  //   const token = jwt.sign(googleUser, JWT_SECRET);
+  //   res.cookie(COOKIE_NAME, token, {
+  //     maxAge: 900000,
+  //     httpOnly: true,
+  //     secure: false,
+  //   });
+  //   console.log('el token que deberia haber: ', token);
+  //   res.redirect(CLIENT_ROOT_URI);
+
+  // //! esto es lo que hace el login original
+  // const { email, password } = req.body;
+  // try {
+  //   const user = await User.login(email, password);
+  //   // eslint-disable-next-line no-underscore-dangle
+  //   const token = createJWT(user._id);
+  //   res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+  //   res.status(201).json({ user });
+  // } catch (error) {
+  //   const errors = alertError(error);
+  //   res.status(400).json({ errors });
+  // }
+  // //!
+});
+
+app.get('/google-login-redirect', (req, res) => {
+  console.log('google-login-redirect Route!');
+  try {
+    const decodedToken = jwt.verify(req.cookies[COOKIE_NAME], 'chatroom secret');
+    const { user } = decodedToken;
+    res.status(201).json(user);
+  } catch (err) {
+    console.log(err);
+    res.send(null);
+  }
 });
 
 //! MONGO

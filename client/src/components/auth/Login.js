@@ -42,11 +42,29 @@ function Login() {
     }
   }
 
+  // useEffect(() => {
+  //   // TODO try catch?
+  //   async function fetchGoogleAuthUrl() {
+  //     // You can await here
+  //     const googleAuthUrl = await fetch(
+  //       "http://localhost:5000/auth/google/url",
+  //       {
+  //         credentials: "include",
+  //       }
+  //     )
+  //     // ...
+  //   }
+  //   fetchGoogleAuthUrl()
+  // }, [])
+
   const onClickGoogle = async () => {
     try {
-      const res = await fetch("http://localhost:5000/auth/google/url", {
-        credentials: "include",
-      })
+      const googleAuthUrl = await fetch(
+        "http://localhost:5000/auth/google/url",
+        {
+          credentials: "include",
+        }
+      )
     } catch (error) {
       console.log(error)
     }

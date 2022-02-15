@@ -63,7 +63,7 @@ module.exports.login = async (req, res) => {
     res.status(400).json({ errors });
   }
 };
-
+// TODO logout de google auth!!!!!
 module.exports.logout = (req, res) => {
   res.cookie('jwt', '', { maxAge: -1 });
   res.status(200).json({ logout: true });
