@@ -5,6 +5,7 @@ const { GOOGLE_CLIENT_SECRET } = process.env;
 const { SERVER_ROOT_URI } = process.env;
 const { CLIENT_ROOT_URI } = process.env;
 const { JWT_SECRET } = process.env;
+const { DB_URI } = process.env;
 const COOKIE_NAME = 'google-auth-cookie';
 const REDIRECT_URL = 'http://localhost:5000/login/google-auth';
 
@@ -16,4 +17,5 @@ module.exports = {
   JWT_SECRET,
   COOKIE_NAME,
   REDIRECT_URL,
+  DB_URI,
 };

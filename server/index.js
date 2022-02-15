@@ -5,13 +5,14 @@ const { Server } = require('socket.io');
 const { join } = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const mongoose = require('mongoose');
+
 const httpServer = require('http').createServer(app);
 const { createJWT } = require('./controllers/auth-controllers');
 const { JWT_SECRET, COOKIE_NAME, CLIENT_ROOT_URI } = require('./config');
 const { getGoogleAuthURL, verifyGoogleAuthToken, googleAuthLog } = require('./controllers/google-auth-controllers');
-
-// TODO por que esta en las cookies? podría modificar esto mas adelante para que vaya en un header
+const authRoutes = require('./routes/authRoutes');
+const Room = require('./models/Room');
+const { startDb } = require('./db');
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -19,19 +20,18 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-const authRoutes = require('./routes/authRoutes');
-const Room = require('./models/Room');
-
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(authRoutes);
 
+// DB initialization
+startDb();
+
 //! Google Auth
 
 // Getting google auth login URL
 const googleAuthURL = getGoogleAuthURL();
-console.log('googleAuthURL', googleAuthURL);
 app.get('/auth/google/url', (req, res) => {
   res.json(googleAuthURL);
 });
@@ -40,10 +40,8 @@ app.get('/login/google-auth', googleAuthLog);
 
 app.get('/google-login-redirect', verifyGoogleAuthToken);
 
-//! MONGO
-const mongoDB = 'mongodb://localhost:27017/chat-app';
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log('connected')).catch((err) => console.log(err));
 const { addUser, getUser, removeUser } = require('./userUtils');
+
 const Message = require('./models/Message');
 
 //! SOCKET.IO
