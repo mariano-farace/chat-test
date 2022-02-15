@@ -7,7 +7,7 @@ const {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   SERVER_ROOT_URI,
-  CLIENT_ROOT_URI,
+  CLIENT_REDIRECT_TO_URI,
   JWT_SECRET,
   COOKIE_NAME,
   REDIRECT_URL,
@@ -20,7 +20,8 @@ const {
 const oauth2Client = new google.auth.OAuth2(
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  REDIRECT_URL,
+  `${SERVER_ROOT_URI}/${REDIRECT_URL}`
+  ,
 );
 
 /**
@@ -54,7 +55,6 @@ Function that fetches the bearer token with the code, then fetches the user’s 
 */
 async function getGoogleUser({ code }) {
   const { tokens } = await oauth2Client.getToken(code);
-  console.log('tokens', tokens);
   // Fetch the user's profile with the access token and bearer
   const googleUser = await axios
     .get(
@@ -75,26 +75,19 @@ async function getGoogleUser({ code }) {
 
 async function googleAuthLog(req, res) {
   const { code } = req.query;
-  console.log('el puto codigo: ', code);
   const googleUser = await getGoogleUser({ code });
-  console.log('result de getGoogleUser:::', googleUser);
   try {
     let user = await User.findOne({ email: googleUser.email });
     if (!user) {
-      console.log('el user no existe, crea uno');
       user = await User.create({ name: googleUser.name, email: googleUser.email, password: 'isOauth: true' });
     }
     const maxAge = (24 * 60 * 60);
 
-    const token = jwt.sign({ user }, 'chatroom secret', {
+    const token = jwt.sign({ user }, JWT_SECRET, {
       expiresIn: maxAge,
     });
     res.cookie(COOKIE_NAME, token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.redirect(CLIENT_ROOT_URI);
-    // res.status(201).json({ user });
-
-    console.log('el user existe');
-    console.log(user);
+    res.redirect(CLIENT_REDIRECT_TO_URI);
   } catch (error) {
     console.log(error);
     res.status(400).json(error);
@@ -102,9 +95,8 @@ async function googleAuthLog(req, res) {
 }
 
 async function verifyGoogleAuthToken(req, res) {
-  console.log('google-login-redirect Route!');
   try {
-    const decodedToken = jwt.verify(req.cookies[COOKIE_NAME], 'chatroom secret');
+    const decodedToken = jwt.verify(req.cookies[COOKIE_NAME], JWT_SECRET);
     const { user } = decodedToken;
     res.status(201).json(user);
   } catch (err) {
