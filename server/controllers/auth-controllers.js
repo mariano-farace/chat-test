@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { JWT_SECRET } = require('../config');
 
 const maxAge = 24 * 60 * 60;
 
-const createJWT = (id) => jwt.sign({ id }, 'chatroom secret', {
+const createJWT = (id) => jwt.sign({ id }, JWT_SECRET, {
   expiresIn: maxAge, // in token expiration, calculate by second
 });
 
