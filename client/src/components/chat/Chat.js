@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import io from "socket.io-client"
-import { useParams } from "react-router-dom"
+import { useParams, Navigate } from "react-router-dom"
 import { UserContext } from "../../UserContext"
 import Input from "./Input"
 import Messages from "./Messages"
@@ -42,6 +42,10 @@ function Chat() {
       setMessageLog(result)
     })
   }, [])
+
+  if (!user) {
+    return <Navigate to="/login" />
+  }
 
   return (
     <div className="outerContainer">

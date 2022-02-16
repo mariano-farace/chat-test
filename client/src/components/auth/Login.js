@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { Navigate } from "react-router-dom"
+import GoogleButton from "react-google-button"
 import { UserContext } from "../../UserContext"
 
 function Login() {
@@ -10,6 +11,7 @@ function Login() {
   const [nameError, setNameError] = useState("")
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
+  const [googleAuthURL, setGoogleAuthURL] = useState("")
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -25,12 +27,12 @@ function Login() {
         body: JSON.stringify({ name, email, password }),
         headers: { "Content-Type": "application/json" },
       })
-      const data = await res.json() // TODO por que necesita await???????????' https://developer.mozilla.org/en-US/docs/Web/API/Response/json
+      const data = await res.json()
       console.log("data!!!!!!", data)
 
       if (data.errors) {
         setEmailError(data.errors.email)
-        setNameError(data.errors.name) // TODO borrar esto, porque no se esta usando
+        setNameError(data.errors.name)
         setPasswordError(data.errors.password)
       }
       if (data.user) {
@@ -40,6 +42,23 @@ function Login() {
       console.log(error)
     }
   }
+
+  useEffect(() => {
+    // TODO try catch?
+    async function fetchGoogleAuthUrl() {
+      // You can await here
+      const response = await fetch("http://localhost:5000/auth/google/url", {
+        credentials: "include",
+      })
+      const fetchedURL = await response.json(response)
+      console.log("al menos para por el fetch")
+      console.log("googleAuthURL", fetchedURL)
+
+      setGoogleAuthURL(fetchedURL)
+    }
+    fetchGoogleAuthUrl()
+  }, [])
+
   if (user) {
     console.log("entra al navigate")
     return <Navigate to="/" />
@@ -81,6 +100,11 @@ function Login() {
         </div>
 
         <button className="btn">Login</button>
+        <GoogleButton
+          onClick={() => {
+            window.location.href = googleAuthURL
+          }}
+        />
       </form>
     </div>
   )

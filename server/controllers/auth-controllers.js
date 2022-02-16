@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { JWT_SECRET } = require('../config');
 
 const maxAge = 24 * 60 * 60;
 
-const createJWT = (id) => jwt.sign({ id }, 'chatroom secret', {
+const createJWT = (id) => jwt.sign({ id }, JWT_SECRET, {
   expiresIn: maxAge, // in token expiration, calculate by second
 });
 
@@ -63,8 +64,9 @@ module.exports.login = async (req, res) => {
     res.status(400).json({ errors });
   }
 };
-
+// TODO logout de google auth!!!!!
 module.exports.logout = (req, res) => {
   res.cookie('jwt', '', { maxAge: -1 });
+  res.cookie('google-auth-cookie', '', { maxAge: -1 });
   res.status(200).json({ logout: true });
 };
