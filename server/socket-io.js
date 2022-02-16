@@ -1,6 +1,6 @@
 const Room = require('./models/Room');
 const Message = require('./models/Message');
-const { addUser, getUser, removeUser } = require('./userUtils');
+const { addUser, getUser, removeUser } = require('./user-utils');
 
 module.exports = (io) => {
   io.on('connection', (socket) => {

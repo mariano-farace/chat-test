@@ -3,8 +3,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
-const authRoutes = require('./routes/authRoutes');
-const googleAuthRoutes = require('./routes/googleAuthRoutes');
+const authRoutes = require('./routes/auth-routes');
+const googleAuthRoutes = require('./routes/google-auth-routes');
 const { startDb } = require('./db');
 
 const app = express();
