@@ -73,7 +73,7 @@ async function getGoogleUser({ code }) {
   return googleUser;
 }
 
-async function googleAuthLog(req, res) {
+async function googleAuthCheckDbSendJWT(req, res) {
   const { code } = req.query;
   const googleUser = await getGoogleUser({ code });
   try {
@@ -106,5 +106,5 @@ async function verifyGoogleAuthToken(req, res) {
 }
 
 module.exports = {
-  getGoogleAuthURL, getGoogleUser, googleAuthLog, verifyGoogleAuthToken,
+  getGoogleAuthURL, getGoogleUser, googleAuthCheckDbSendJWT, verifyGoogleAuthToken,
 };
