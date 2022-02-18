@@ -26,7 +26,6 @@ function Chat() {
     if (message) {
       console.log(message)
       socket.emit("sendMessage", message, room_id, () => setMessage(""))
-      setMessage("")
     }
   }
 
