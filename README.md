@@ -63,7 +63,7 @@
 
 ![Chat-app](Screenshot.png)
 
-This is a Chat-App made as part of the IT-Academy Bootcamp syllabus. A user can sign-up via email and password, or login with it's google account. Once authenticated, you can create or join rooms to chat with other people.  
+This is was a Chat-App made as part of the IT-Academy Bootcamp syllabus. A user can sign-up via email and password, or login with it's google account. Once authenticated, you can create or join rooms to chat with other people.  
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
