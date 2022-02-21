@@ -61,7 +61,7 @@
 ## About The Project
 
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Chat-app][product-screenshot]](https://github.com/mariano-farace/SPRINT5-ITAcademey-Chat-App/blob/main/Screenshot%20from%202022-02-21%2012-51-27.png)
 
 This is a Chat-App made as part of the IT-Academy Bootcamp syllabus. A user can sign-up via email and password, or login with it's google account. Once authenticated, you can create or join rooms to chat with other people.  
 
