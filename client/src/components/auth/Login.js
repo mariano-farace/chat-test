@@ -11,7 +11,6 @@ function Login() {
   const [nameError, setNameError] = useState("")
   const [emailError, setEmailError] = useState("")
   const [passwordError, setPasswordError] = useState("")
-  const [googleAuthURL, setGoogleAuthURL] = useState("")
 
   const submitHandler = async (e) => {
     e.preventDefault()
@@ -43,21 +42,22 @@ function Login() {
     }
   }
 
-  useEffect(() => {
-    // TODO try catch?
-    async function fetchGoogleAuthUrl() {
-      // You can await here
-      const response = await fetch("http://localhost:5000/auth/google/url", {
-        credentials: "include",
-      })
-      const fetchedURL = await response.json(response)
-      console.log("al menos para por el fetch")
-      console.log("googleAuthURL", fetchedURL)
+  const createGoogleAuthLink = async () => {
+    try {
+      // cambiar la url de  "http://localhost:5000/auth/google/url" a "http://localhost:8080/createAuthLink"
+      console.log("[1;35m entra al createGoogleAuthLink")
 
-      setGoogleAuthURL(fetchedURL)
+      const response = await fetch("http://localhost:5000/auth/google/url")
+      const fetchedURL = await response.json()
+
+      console.log("fetchedUrl", fetchedURL)
+
+      window.location.href = fetchedURL.url
+    } catch (error) {
+      console.log("App.js 12 | error", error)
+      throw new Error("Issue with Login", error.message)
     }
-    fetchGoogleAuthUrl()
-  }, [])
+  }
 
   if (user) {
     console.log("entra al navigate")
@@ -100,11 +100,7 @@ function Login() {
         </div>
 
         <button className="btn">Login</button>
-        <GoogleButton
-          onClick={() => {
-            window.location.href = googleAuthURL
-          }}
-        />
+        <GoogleButton onClick={createGoogleAuthLink} />
       </form>
     </div>
   )
