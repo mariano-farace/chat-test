@@ -37,6 +37,7 @@ function Login() {
       }
       if (data.user) {
         setUser(data.user)
+        localStorage.setItem("user", JSON.stringify(data.user))
       }
     } catch (error) {
       console.log(error)

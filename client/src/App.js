@@ -12,6 +12,15 @@ import Redirect from "./components/auth/Redirect"
 function App() {
   const [user, setUser] = useState(null)
 
+  useEffect(() => {
+    console.log('PASA POR EL USEEFFECT QUE HACE localStorage.getItem("user")')
+    const loggedInUser = localStorage.getItem("user")
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser)
+      setUser(foundUser)
+    }
+  }, [])
+
   return (
     <BrowserRouter>
       <div className="App">
