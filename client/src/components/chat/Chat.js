@@ -30,12 +30,18 @@ function Chat() {
   }
 
   useEffect(() => {
+    if (!user) {
+      return
+    }
     socket.on("newMessage", (newMessage) => {
       setMessageLog([...messageLog, newMessage])
     })
   })
 
   useEffect(() => {
+    if (!user) {
+      return
+    }
     socket.emit("get-message-history", room_id)
     socket.on("message-history", (result) => {
       setMessageLog(result)
