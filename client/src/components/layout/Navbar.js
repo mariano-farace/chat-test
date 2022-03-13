@@ -13,6 +13,7 @@ function Navbar() {
       })
       const data = res.json()
       console.log("logout data", data)
+      localStorage.clear()
       setUser(null)
     } catch (error) {
       console.log(error)
