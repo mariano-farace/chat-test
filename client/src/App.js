@@ -10,7 +10,16 @@ import Chat from "./components/chat/Chat"
 import Redirect from "./components/auth/Redirect"
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(localStorage.getItem("user"))
+
+  useEffect(() => {
+    console.log('PASA POR EL USEEFFECT QUE HACE localStorage.getItem("user")')
+    const loggedInUser = localStorage.getItem("user")
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser)
+      setUser(foundUser)
+    }
+  }, [])
 
   return (
     <BrowserRouter>
