@@ -52,7 +52,7 @@ function Login() {
 
       console.log("fetchedUrl", fetchedURL)
 
-      window.location.href = fetchedURL.url
+      window.location.href = fetchedURL
     } catch (error) {
       console.log("App.js 12 | error", error)
       throw new Error("Issue with Login", error.message)
