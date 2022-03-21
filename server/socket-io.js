@@ -1,6 +1,8 @@
 const Room = require('./models/Room');
 const Message = require('./models/Message');
-const { addUser, getUser, removeUser } = require('./user-utils');
+const {
+  addUser, getUser, removeUser, users,
+} = require('./user-utils');
 
 module.exports = (io) => {
   io.on('connection', (socket) => {
@@ -14,13 +16,20 @@ module.exports = (io) => {
       const room = new Room({ name });
       // Fijate que si pones socket.emit('room-created', solamente se
       // se actualiza para el usuario que lo crea, el io.emit, lo emite a todos
-      room.save().then((result) => { io.emit('room-created', result); });
+      room.save().then((result) => {
+        io.emit('room-created', result);
+      });
     });
 
     socket.on('join', ({ name, room_id, user_id }) => {
+      console.log('[1;34m evento join valor del room', room_id);
+
+      console.log('[1;34m Entra al JOIN');
+
       const { error, user } = addUser(socket.id, name, user_id, room_id);
 
       socket.join(room_id);
+      io.to(room_id).emit('users-list', users);
       if (error) {
         console.log('join error', error);
       } else {
@@ -42,7 +51,7 @@ module.exports = (io) => {
 
       const msg = new Message(messageToStore);
       msg.save().then((result) => {
-        io.to(room_id).emit('newMessage', result);
+        io.to(room_id).emit('newMessage', result);// TODO to(room_id) no est aportando nada. Compararlo con el disconnect, ver como lo vas a manejar
 
         // Llama al setMessage en el front, para que se limpie el espacio de escribir el mensaje
         setMessageCallback();
@@ -55,7 +64,12 @@ module.exports = (io) => {
       });
     });
 
+    // TODO borrar, no la vas a usar
+    socket.on('get-connected-users', () => {
+    });
+
     socket.on('disconnect', () => {
+      // io.emit('users-list', users);
       removeUser(socket.id);
     });
   });

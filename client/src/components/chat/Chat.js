@@ -5,6 +5,7 @@ import { UserContext } from "../../UserContext"
 import Input from "./Input"
 import Messages from "./Messages"
 import "./Chat.css"
+import UserPanel from "./UserPanel"
 
 let socket
 
@@ -14,12 +15,36 @@ function Chat() {
   const { room_id, room_name } = useParams()
   const [message, setMessage] = useState("")
   const [messageLog, setMessageLog] = useState([])
+  //! Cual es el estado inicial???
+  const [usersList, setUsersList] = useState([])
 
   useEffect(() => {
     socket = io(ENDPT)
     console.log('Se dispara el evento emit "join"')
+    console.log("[1;31m EL PUTO USER", user)
+    console.log("[1;31m user.name", user.name)
+
     socket.emit("join", { name: user.name, room_id, user_id: user._id })
-  }, [])
+    console.log("[1;31m emitio el join con esta data", {
+      name: user.name,
+      room_id,
+      user_id: user._id,
+    })
+  }, [user]) //! Este es el ultimo cambio, verificar que este haciendo lo que corresponde!
+
+  useEffect(() => {
+    //! Creo que no esta en uso, comprobar
+    socket.on("users-list", (currentUsersList) => {
+      console.log("[1;33m -------------------------")
+      const filteredUsersByRoom = currentUsersList.filter(
+        (connectedUser) => connectedUser.room_id === room_id
+      )
+      console.log('[1;33m "users-list" Emitio')
+      console.log("[1;33m -------------------------")
+
+      setUsersList(filteredUsersByRoom)
+    })
+  }, []) //! Esta bien esto????
 
   const sendMessage = (e) => {
     e.preventDefault()
@@ -55,6 +80,7 @@ function Chat() {
           setMessage={setMessage}
           sendMessage={sendMessage}
         />
+        <UserPanel usersList={usersList} />
       </div>
     </div>
   )
