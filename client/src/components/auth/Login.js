@@ -18,7 +18,6 @@ function Login() {
     setEmailError("")
     setNameError("")
     setPasswordError("")
-    console.log(name, email, password)
 
     try {
       const res = await fetch("http://localhost:5000/login", {
@@ -28,7 +27,6 @@ function Login() {
         headers: { "Content-Type": "application/json" },
       })
       const data = await res.json()
-      console.log("data!!!!!!", data)
 
       if (data.errors) {
         setEmailError(data.errors.email)
@@ -39,9 +37,7 @@ function Login() {
         setUser(data.user)
         localStorage.setItem("user", JSON.stringify(data.user))
       }
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -52,8 +48,6 @@ function Login() {
         credentials: "include",
       })
       const fetchedURL = await response.json(response)
-      console.log("al menos para por el fetch")
-      console.log("googleAuthURL", fetchedURL)
 
       setGoogleAuthURL(fetchedURL)
     }
@@ -61,7 +55,6 @@ function Login() {
   }, [])
 
   if (user) {
-    console.log("entra al navigate")
     return <Navigate to="/" />
   }
 

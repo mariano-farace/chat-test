@@ -6,22 +6,15 @@ export default function UserPanel({ usersList }) {
   const { user, setUser } = useContext(UserContext)
 
   // The userList has an object with no name, it looks like the room itself, this filter is intended to remove it a not cause error when iterating over it on map
-  console.log("%cUserPanel.js line:6 usersList", "color: #007acc;", usersList)
   const filterUsers = usersList.filter(
     (
       connectedUser // TODO esta logica la podria pasar un nivel mas arriba, al use effect del chat y unirlo con el filter del room_id
     ) => connectedUser.name !== undefined && connectedUser.name !== user.name
   )
-  console.log("[1;35m filterUsers", filterUsers)
 
   const userNamesList = filterUsers.map((connectedUser) => (
     <li key={connectedUser.socket_id}>{connectedUser.name}</li>
   ))
-  console.log(
-    "%cUserPanel.js line:6 userNamesList",
-    "color: #007acc;",
-    userNamesList
-  )
 
   return (
     <div className="panelContainer">

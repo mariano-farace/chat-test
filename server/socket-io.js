@@ -30,6 +30,9 @@ module.exports = (io) => {
 
       socket.join(room_id);
       io.to(room_id).emit('users-list', users);
+      // TODO borrar este test
+      io.in(room_id).fetchSockets().then((sockets) => { console.log('[1;31m Red message', sockets); });
+
       if (error) {
         console.log('join error', error);
       } else {
@@ -69,6 +72,7 @@ module.exports = (io) => {
     });
 
     socket.on('disconnect', () => {
+      console.log('!!!!!!Disconnect from socket!!!!!!');
       // io.emit('users-list', users);
       removeUser(socket.id);
     });

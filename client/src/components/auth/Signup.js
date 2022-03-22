@@ -16,7 +16,6 @@ function Signup() {
     setEmailError("")
     setNameError("")
     setPasswordError("")
-    console.log(name, email, password) /* TODO borrar estos logs */
     try {
       const res = await fetch("http://localhost:5000/signup", {
         method: "POST",
@@ -25,7 +24,6 @@ function Signup() {
         headers: { "Content-Type": "application/json" },
       })
       const data = await res.json()
-      console.log(data)
       if (data.errors) {
         setEmailError(data.errors.email)
         setNameError(data.errors.name)
@@ -34,9 +32,7 @@ function Signup() {
       if (data.user) {
         setUser(data.user)
       }
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
   if (user) {
     return <Navigate to="/" />

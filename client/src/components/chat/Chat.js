@@ -20,27 +20,16 @@ function Chat() {
 
   useEffect(() => {
     socket = io(ENDPT)
-    console.log('Se dispara el evento emit "join"')
-    console.log("[1;31m EL PUTO USER", user)
-    console.log("[1;31m user.name", user.name)
 
     socket.emit("join", { name: user.name, room_id, user_id: user._id })
-    console.log("[1;31m emitio el join con esta data", {
-      name: user.name,
-      room_id,
-      user_id: user._id,
-    })
-  }, [user]) //! Este es el ultimo cambio, verificar que este haciendo lo que corresponde!
+  }, [user]) //! Este es el ultimo cambio, verificar que este haciendo lo que corresponde! Creo que esta rompiendo lo del refresh
 
   useEffect(() => {
     //! Creo que no esta en uso, comprobar
     socket.on("users-list", (currentUsersList) => {
-      console.log("[1;33m -------------------------")
       const filteredUsersByRoom = currentUsersList.filter(
         (connectedUser) => connectedUser.room_id === room_id
       )
-      console.log('[1;33m "users-list" Emitio')
-      console.log("[1;33m -------------------------")
 
       setUsersList(filteredUsersByRoom)
     })
@@ -49,7 +38,6 @@ function Chat() {
   const sendMessage = (e) => {
     e.preventDefault()
     if (message) {
-      console.log(message)
       socket.emit("sendMessage", message, room_id, () => setMessage(""))
     }
   }
