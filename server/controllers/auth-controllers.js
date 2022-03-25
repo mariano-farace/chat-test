@@ -52,7 +52,7 @@ module.exports.login = async (req, res) => {
     // eslint-disable-next-line no-underscore-dangle
     const token = createJWT(user._id);
     setCookie(token, res);
-    res.status(201).json({ user });
+    res.status(201).json({ user: { name: user.name, _id: user._id } });
   } catch (error) {
     const errors = alertError(error);
     res.status(400).json({ errors });
