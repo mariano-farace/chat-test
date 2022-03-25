@@ -2,7 +2,7 @@ const { google } = require('googleapis');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const { createJWT, maxAge } = require('../helpers/helper');
+const { createJWT, setCookie } = require('../helpers/helper');
 
 const {
   GOOGLE_CLIENT_ID,
@@ -85,7 +85,7 @@ async function googleAuthCheckDbSendJWT(req, res) {
 
     const token = createJWT(user._id);
 
-    res.cookie(COOKIE_NAME, token, { httpOnly: true, maxAge: maxAge * 1000 });
+    setCookie(token, res);
     res.redirect(CLIENT_REDIRECT_TO_URI);
   } catch (error) {
     console.log(error);
