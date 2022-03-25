@@ -23,6 +23,10 @@ function Redirect() {
   }, [])
 
   if (user) {
+    localStorage.setItem("user", JSON.stringify(user))
+
+    console.log("[1;35m user", user)
+
     console.log("entra al navigate")
     return <Navigate to="/" />
   }
