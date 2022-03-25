@@ -3,10 +3,10 @@ require('dotenv').config();
 const { GOOGLE_CLIENT_ID } = process.env;
 const { GOOGLE_CLIENT_SECRET } = process.env;
 const { SERVER_ROOT_URI } = process.env;
-const { CLIENT_REDIRECT_TO_URI } = process.env;
+const CLIENT_REDIRECT_TO_URI = 'http://localhost:3000/google-login-redirect';
 const JWT_SECRET = 'chatroom secret';
 const { DB_URI } = process.env;
-const COOKIE_NAME = 'google-auth-cookie';
+const COOKIE_NAME = 'jwt';
 const REDIRECT_URL = 'login/google-auth';
 
 module.exports = {

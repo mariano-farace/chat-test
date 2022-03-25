@@ -1,12 +1,6 @@
-const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const { JWT_SECRET } = require('../config');
-
-const maxAge = 24 * 60 * 60;
-
-const createJWT = (id) => jwt.sign({ id }, JWT_SECRET, {
-  expiresIn: maxAge, // in token expiration, calculate by second
-});
+const { createJWT, maxAge, setCookie } = require('../helpers/helper');
+const { COOKIE_NAME } = require('../config');
 
 // we use it for Error handling
 const alertError = (err) => {
@@ -57,16 +51,15 @@ module.exports.login = async (req, res) => {
     const user = await User.login(email, password);
     // eslint-disable-next-line no-underscore-dangle
     const token = createJWT(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    setCookie(token, res);
     res.status(201).json({ user });
   } catch (error) {
     const errors = alertError(error);
     res.status(400).json({ errors });
   }
 };
-// TODO logout de google auth!!!!!
+// TODO en vez de kwt usar cookie name!!
 module.exports.logout = (req, res) => {
-  res.cookie('jwt', '', { maxAge: -1 });
-  res.cookie('google-auth-cookie', '', { maxAge: -1 });
+  res.cookie(COOKIE_NAME, '', { maxAge: -1 });
   res.status(200).json({ logout: true });
 };

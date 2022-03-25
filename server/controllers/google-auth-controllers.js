@@ -2,6 +2,7 @@ const { google } = require('googleapis');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { createJWT, setCookie } = require('../helpers/helper');
 
 const {
   GOOGLE_CLIENT_ID,
@@ -81,12 +82,10 @@ async function googleAuthCheckDbSendJWT(req, res) {
     if (!user) {
       user = await User.create({ name: googleUser.name, email: googleUser.email, password: 'isOauth: true' });
     }
-    const maxAge = (24 * 60 * 60);
 
-    const token = jwt.sign({ user }, JWT_SECRET, {
-      expiresIn: maxAge,
-    });
-    res.cookie(COOKIE_NAME, token, { httpOnly: true, maxAge: maxAge * 1000 });
+    const token = createJWT(user._id);
+
+    setCookie(token, res);
     res.redirect(CLIENT_REDIRECT_TO_URI);
   } catch (error) {
     console.log(error);
@@ -97,8 +96,8 @@ async function googleAuthCheckDbSendJWT(req, res) {
 async function verifyGoogleAuthToken(req, res) {
   try {
     const decodedToken = jwt.verify(req.cookies[COOKIE_NAME], JWT_SECRET);
-    const { user } = decodedToken;
-    res.status(201).json(user);
+    const userId = decodedToken;
+    res.status(201).json(userId);
   } catch (err) {
     console.log(err);
     res.send(null);
