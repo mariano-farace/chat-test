@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from "react"
+/* eslint-disable no-unused-vars */
+import React, { useState, useContext } from "react"
 import { Navigate } from "react-router-dom"
 import GoogleButton from "react-google-button"
 import { UserContext } from "../../UserContext"
