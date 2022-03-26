@@ -14,9 +14,9 @@ function Redirect() {
           credentials: "include",
         }
       )
-      const fetchedUser = await response.json(response)
-      console.log(fetchedUser)
-      setUser(fetchedUser)
+      const data = await response.json(response)
+      console.log(data)
+      setUser(data.user)
     }
 
     getMe()

@@ -50,6 +50,7 @@ module.exports.login = async (req, res) => {
   try {
     const user = await User.login(email, password);
     // eslint-disable-next-line no-underscore-dangle
+
     const token = createJWT(user._id);
     setCookie(token, res);
     res.status(201).json({ user: { name: user.name, _id: user._id } });
@@ -58,7 +59,6 @@ module.exports.login = async (req, res) => {
     res.status(400).json({ errors });
   }
 };
-// TODO en vez de kwt usar cookie name!!
 module.exports.logout = (req, res) => {
   res.cookie(COOKIE_NAME, '', { maxAge: -1 });
   res.status(200).json({ logout: true });

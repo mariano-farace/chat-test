@@ -96,8 +96,9 @@ async function googleAuthCheckDbSendJWT(req, res) {
 async function verifyGoogleAuthToken(req, res) {
   try {
     const decodedToken = jwt.verify(req.cookies[COOKIE_NAME], JWT_SECRET);
-    const userId = decodedToken;
-    res.status(201).json(userId);
+    const userId = decodedToken.id;
+    const user = await User.findById(userId);
+    res.status(201).json({ user: { name: user.name, _id: user._id } });
   } catch (err) {
     console.log(err);
     res.send(null);
