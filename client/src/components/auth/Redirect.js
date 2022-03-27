@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react"
 import { Navigate } from "react-router-dom"
 import { UserContext } from "../../UserContext"
+import { API_BASE_URL } from "../../config"
 
 function Redirect() {
   const { user, setUser } = useContext(UserContext)
@@ -8,12 +9,9 @@ function Redirect() {
   useEffect(() => {
     console.log("paso por el redirect")
     async function getMe() {
-      const response = await fetch(
-        "http://localhost:5000/google-login-redirect",
-        {
-          credentials: "include",
-        }
-      )
+      const response = await fetch(`${API_BASE_URL}/google-login-redirect`, {
+        credentials: "include",
+      })
       const data = await response.json(response)
       console.log(data)
       setUser(data.user)

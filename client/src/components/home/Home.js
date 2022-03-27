@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom"
 import io from "socket.io-client"
 import { UserContext } from "../../UserContext"
 import RoomList from "./RoomList"
+import { API_BASE_URL } from "../../config"
 
 let socket // TODO poner esta variable adentro del useEffect
 
@@ -12,7 +13,7 @@ function Home() {
   const [room, setRoom] = useState("")
   const [rooms, setRooms] = useState([])
 
-  const ENDPT = "localhost:5000"
+  const ENDPT = API_BASE_URL
   useEffect(() => {
     socket = io(ENDPT)
     console.log("use effect de socket.io", socket)

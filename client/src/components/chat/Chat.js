@@ -6,11 +6,12 @@ import { UserContext } from "../../UserContext"
 import Input from "./Input"
 import Messages from "./Messages"
 import "./Chat.css"
+import { API_BASE_URL } from "../../config"
 
 let socket
 
 function Chat() {
-  const ENDPT = "localhost:5000"
+  const ENDPT = API_BASE_URL
   const { user, setUser } = useContext(UserContext)
   const { room_id, room_name } = useParams()
   const [message, setMessage] = useState("")
