@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 // Routes
 // test route
-app.get('/test', (req, res) => res.send('server up and running'));
+app.get('/', (req, res) => res.send('server up and running'));
 app.use(authRoutes);
 app.use(googleAuthRoutes);
 
