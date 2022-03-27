@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react"
 import { Navigate } from "react-router-dom"
 import { UserContext } from "../../UserContext"
+import { API_BASE_URL } from "../../config"
 
 function Signup() {
   const { user, setUser } = useContext(UserContext)
@@ -18,7 +19,7 @@ function Signup() {
     setPasswordError("")
     console.log(name, email, password) /* TODO borrar estos logs */
     try {
-      const res = await fetch("http://localhost:5000/signup", {
+      const res = await fetch(`${API_BASE_URL}/signup`, {
         method: "POST",
         credentials: "include",
         body: JSON.stringify({ name, email, password }),

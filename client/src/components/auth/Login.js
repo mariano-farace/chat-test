@@ -1,9 +1,13 @@
-import React, { useState, useContext, useEffect } from "react"
+/* eslint-disable no-unused-vars */
+import React, { useState, useContext } from "react"
 import { Navigate } from "react-router-dom"
 import GoogleButton from "react-google-button"
 import { UserContext } from "../../UserContext"
+import { API_BASE_URL } from "../../config"
 
 function Login() {
+  console.log("[1;35m API_BASE_URL", API_BASE_URL)
+
   const { user, setUser } = useContext(UserContext)
   const [name, setName] = useState("") // TODO borrar?
   const [email, setEmail] = useState("")
@@ -20,7 +24,8 @@ function Login() {
     console.log(name, email, password)
 
     try {
-      const res = await fetch("http://localhost:5000/login", {
+      const la_urls = `${API_BASE_URL}/login`
+      const res = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         credentials: "include", // TODO ver que coñoo es esta opcion
         body: JSON.stringify({ name, email, password }),
@@ -48,7 +53,7 @@ function Login() {
       // cambiar la url de  "http://localhost:5000/auth/google/url" a "http://localhost:8080/createAuthLink"
       console.log("[1;35m entra al createGoogleAuthLink")
 
-      const response = await fetch("http://localhost:5000/auth/google/url")
+      const response = await fetch(`${API_BASE_URL}/auth/google/url`)
       const fetchedURL = await response.json()
 
       console.log("fetchedUrl", fetchedURL)

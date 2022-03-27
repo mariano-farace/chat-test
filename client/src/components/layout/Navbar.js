@@ -2,13 +2,14 @@ import React, { useContext } from "react"
 import { UserContext } from "../../UserContext"
 import SignedOutMenu from "./SignedOutMenu"
 import SignedInMenu from "./SignedInMenu"
+import { API_BASE_URL } from "../../config"
 
 function Navbar() {
   const { user, setUser } = useContext(UserContext)
 
   const logout = async () => {
     try {
-      const res = await fetch("http://localhost:5000/logout", {
+      const res = await fetch(`${API_BASE_URL}/logout`, {
         credentials: "include",
       })
       const data = res.json()
