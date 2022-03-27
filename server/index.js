@@ -6,12 +6,13 @@ const { Server } = require('socket.io');
 const authRoutes = require('./routes/auth-routes');
 const googleAuthRoutes = require('./routes/google-auth-routes');
 const { startDb } = require('./db');
+const { CORS_URL } = require('./config');
 
 const app = express();
 const httpServer = http.createServer(app);
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: CORS_URL,
   credentials: true,
   optionsSuccessStatus: 200,
 };
