@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "dev": "nodemon index"
+    "dev": "nodemon index",
+    "deploy": "cd .. && git subtree push --prefix server heroku master",
+    "logs:prod": "heroku logs --tail"
   },
   "author": "",
   "license": "ISC",
