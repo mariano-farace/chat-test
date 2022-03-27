@@ -8,7 +8,7 @@ const JWT_SECRET = 'chatroom secret';
 const { DB_URI } = process.env;
 const COOKIE_NAME = 'jwt';
 const REDIRECT_URL = 'login/google-auth';
-const CORS_URL = process.env;
+const CORS_URL = process.env || 'http://localhost:3000';
 
 module.exports = {
   GOOGLE_CLIENT_ID,
