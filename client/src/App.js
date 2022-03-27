@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
 import "./App.css"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { HashRouter as Router, Routes, Route } from "react-router-dom"
 import React, { useEffect, useState } from "react"
 import Navbar from "./components/layout/Navbar"
 import Signup from "./components/auth/Signup"
@@ -13,7 +14,6 @@ function App() {
   const [user, setUser] = useState(localStorage.getItem("user"))
 
   useEffect(() => {
-    console.log('PASA POR EL USEEFFECT QUE HACE localStorage.getItem("user")')
     const loggedInUser = localStorage.getItem("user")
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser)
@@ -22,7 +22,7 @@ function App() {
   }, [])
 
   return (
-    <BrowserRouter>
+    <Router>
       <div className="App">
         <UserContext.Provider value={{ user, setUser }}>
           <Navbar />
@@ -36,7 +36,7 @@ function App() {
           </Routes>
         </UserContext.Provider>
       </div>
-    </BrowserRouter>
+    </Router>
   )
 }
 
