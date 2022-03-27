@@ -33,7 +33,7 @@ startDb();
 // Socket-io
 const io = new Server(httpServer, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: CORS_URL,
   },
 });
 // Will call the function on './socket-io', and pass io as argument
