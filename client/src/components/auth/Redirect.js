@@ -9,10 +9,16 @@ function Redirect() {
   useEffect(() => {
     console.log("paso por el redirect")
     async function getMe() {
+      console.log("[1;31m API_BASE_URL", API_BASE_URL)
+
       const response = await fetch(`${API_BASE_URL}/google-login-redirect`, {
         credentials: "include",
       })
+      console.log("[1;31m before fetch")
+
       const data = await response.json(response)
+      console.log("[1;31m after fetch")
+
       console.log(data)
       setUser(data.user)
     }
