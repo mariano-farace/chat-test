@@ -90,6 +90,8 @@ async function googleAuthCheckDbSendJWT(req, res) {
     console.log('[1;31m y este es el token:', token);
 
     setCookie(token, res);
+    console.log('[1;31m req.cookies[COOKIE_NAME]', res.cookies[COOKIE_NAME]);
+    console.log('[1;31m req.cookies', res.cookies);
     res.redirect(CLIENT_REDIRECT_TO_URI);
   } catch (error) {
     console.log(error);
@@ -100,6 +102,8 @@ async function googleAuthCheckDbSendJWT(req, res) {
 async function verifyGoogleAuthToken(req, res) {
   try {
     console.log('[1;31m entra a verifyGoogleAuthToken');
+    console.log('[1;31m req.cookies[COOKIE_NAME]', req.cookies[COOKIE_NAME]);
+    console.log('[1;31m req.cookies', req.cookies);
 
     const decodedToken = jwt.verify(req.cookies[COOKIE_NAME], JWT_SECRET);
     const userId = decodedToken.id;
