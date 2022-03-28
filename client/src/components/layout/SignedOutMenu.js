@@ -1,15 +1,20 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
 function SignedOutMenu() {
   return (
-    <>
+    <div>
       <li>
-        <a href="/login">Login</a>
+        <Link to="/login">
+          <div>Login</div>
+        </Link>
       </li>
       <li>
-        <a href="/signup">Signup</a>
+        <Link to="/signup">
+          <div>Signup</div>
+        </Link>
       </li>
-    </>
+    </div>
   )
 }
 
