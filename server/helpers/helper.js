@@ -8,7 +8,9 @@ const createJWT = (id) => jwt.sign({ id }, JWT_SECRET, {
 });
 
 const setCookie = (token, res) => {
+  console.log('esta en el setCookie');
   res.cookie(COOKIE_NAME, token, { httpOnly: true, maxAge: maxAge * 1000 });
+  console.log('sale del setCookie');
 };
 
 module.exports = { createJWT, maxAge, setCookie };
