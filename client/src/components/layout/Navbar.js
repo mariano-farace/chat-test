@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { Link } from "react-router-dom"
 import { UserContext } from "../../UserContext"
 import SignedOutMenu from "./SignedOutMenu"
 import SignedInMenu from "./SignedInMenu"
@@ -26,12 +27,11 @@ function Navbar() {
     <>
       <nav className="green">
         <div className="nav-wrapper">
-          {/* TODO por que href=# ?? */}
-          {/* TODO por que usa href en vez del objeto de router Link? debe ser porque tiene que hacer llamada al back */}
-
-          <a href="/" className="brand-logo">
-            Chat
-          </a>
+          <div className="brand-logo">
+            <Link to="/">
+              <div>Chat</div>
+            </Link>
+          </div>
           <a href="#" data-target="mobile-demo" className="sidenav-trigger">
             <i className="material-icons">menu</i>
           </a>
