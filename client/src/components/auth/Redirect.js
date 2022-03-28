@@ -17,7 +17,7 @@ function Redirect() {
       })
       console.log("[1;34m raw response::", response)
 
-      const data = await response.json(response)
+      const data = await response.json()
       console.log("[1;31m after fetch")
 
       console.log(data)
