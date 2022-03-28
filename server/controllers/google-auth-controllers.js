@@ -75,7 +75,7 @@ async function getGoogleUser({ code }) {
 }
 
 async function googleAuthCheckDbSendJWT(req, res) {
-  console.log('[1;31m pasa por googleAuthCheckDbSendJWT');
+  console.log('[1;35m pasa por googleAuthCheckDbSendJWT');
 
   const { code } = req.query;
   const googleUser = await getGoogleUser({ code });
@@ -87,7 +87,7 @@ async function googleAuthCheckDbSendJWT(req, res) {
 
     const token = createJWT(user._id);
 
-    console.log('[1;31m y este es el token:', token);
+    console.log('[1;35m y este es el token:', token);
 
     setCookie(token, res);
     res.redirect(CLIENT_REDIRECT_TO_URI);
@@ -109,7 +109,8 @@ async function verifyGoogleAuthToken(req, res) {
     res.status(201).json({ user: { name: user.name, _id: user._id } });
   } catch (err) {
     console.log(err);
-    res.send(null);
+    console.log('salta el catch :error en verifyGoogleAuthToken');
+    res.status(500).json({ error: 'Login failed' });
   }
 }
 
