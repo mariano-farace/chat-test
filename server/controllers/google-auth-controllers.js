@@ -90,8 +90,6 @@ async function googleAuthCheckDbSendJWT(req, res) {
     console.log('[1;31m y este es el token:', token);
 
     setCookie(token, res);
-    console.log('[1;31m req.cookies[COOKIE_NAME]', res.cookies[COOKIE_NAME]);
-    console.log('[1;31m req.cookies', res.cookies);
     res.redirect(CLIENT_REDIRECT_TO_URI);
   } catch (error) {
     console.log(error);
