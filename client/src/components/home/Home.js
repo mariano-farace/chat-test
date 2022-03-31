@@ -62,6 +62,7 @@ function Home() {
                       placeholder="Enter a room name"
                       id="room"
                       type="text"
+                      required
                       className="validate"
                       value={room}
                       onChange={(e) => setRoom(e.target.value)}
