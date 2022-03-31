@@ -33,9 +33,9 @@ function Chat() {
 
   useEffect(() => {
     socket.on("newMessage", (newMessage) => {
-      setMessageLog([...messageLog, newMessage])
+      setMessageLog((input) => [...input, newMessage])
     })
-  })
+  }, [])
 
   useEffect(() => {
     socket.emit("get-message-history", room_id)
