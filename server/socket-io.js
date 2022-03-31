@@ -40,15 +40,13 @@ module.exports = (io) => {
 
       console.log('el backend recibio este mensaje: ', message);
 
-      // const msg = new Message(messageToStore);
-      // msg.save().then((result) => {
-      //   io.to(room_id).emit('newMessage', result);
+      const msg = new Message(messageToStore);
 
-      //   // Llama al setMessage en el front, para que se limpie el espacio de escribir el mensaje
-      setMessageCallback();
-      // });
-      io.to(room_id).emit('newMessage', messageToStore);
+      msg.save();
+
+      io.to(room_id).emit('newMessage', msg);
       // Llama al setMessage en el front, para que se limpie el espacio de escribir el mensaje
+      setMessageCallback();
     });
 
     socket.on('get-message-history', (room_id) => {
