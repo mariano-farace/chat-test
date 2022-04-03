@@ -16,9 +16,9 @@ function Home() {
   const ENDPT = API_BASE_URL
   useEffect(() => {
     socket = io(ENDPT)
-    console.log("use effect de socket.io", socket)
+   
     return () => {
-      console.log("llama al cleanup, socket.disconnect")
+     
       socket.disconnect()
       socket.off()
     }

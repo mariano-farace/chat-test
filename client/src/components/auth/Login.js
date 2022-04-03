@@ -6,7 +6,7 @@ import { UserContext } from "../../UserContext"
 import { API_BASE_URL } from "../../config"
 
 function Login() {
-  console.log("[1;35m API_BASE_URL", API_BASE_URL)
+ 
 
   const { user, setUser } = useContext(UserContext)
   const [name, setName] = useState("") // TODO borrar?
@@ -21,7 +21,7 @@ function Login() {
     setEmailError("")
     setNameError("")
     setPasswordError("")
-    console.log(name, email, password)
+   
 
     try {
       const la_urls = `${API_BASE_URL}/login`
@@ -32,7 +32,7 @@ function Login() {
         headers: { "Content-Type": "application/json" },
       })
       const data = await res.json()
-      console.log("data!!!!!!", data)
+     
 
       if (data.errors) {
         setEmailError(data.errors.email)
@@ -44,29 +44,29 @@ function Login() {
         localStorage.setItem("user", JSON.stringify(data.user))
       }
     } catch (error) {
-      console.log(error)
+     
     }
   }
 
   const createGoogleAuthLink = async () => {
     try {
       // cambiar la url de  "http://localhost:5000/auth/google/url" a "http://localhost:8080/createAuthLink"
-      console.log("[1;35m entra al createGoogleAuthLink")
+     
 
       const response = await fetch(`${API_BASE_URL}/auth/google/url`)
       const fetchedURL = await response.json()
 
-      console.log("fetchedUrl", fetchedURL)
+     
 
       window.location.href = fetchedURL
     } catch (error) {
-      console.log("App.js 12 | error", error)
+     
       throw new Error("Issue with Login", error.message)
     }
   }
 
   if (user) {
-    console.log("entra al navigate")
+   
     return <Navigate to="/" />
   }
 

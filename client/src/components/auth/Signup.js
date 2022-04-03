@@ -17,7 +17,7 @@ function Signup() {
     setEmailError("")
     setNameError("")
     setPasswordError("")
-    console.log(name, email, password) /* TODO borrar estos logs */
+    /* TODO borrar estos logs */
     try {
       const res = await fetch(`${API_BASE_URL}/signup`, {
         method: "POST",
@@ -26,7 +26,7 @@ function Signup() {
         headers: { "Content-Type": "application/json" },
       })
       const data = await res.json()
-      console.log(data)
+     
       if (data.errors) {
         setEmailError(data.errors.email)
         setNameError(data.errors.name)
@@ -36,7 +36,7 @@ function Signup() {
         setUser(data.user)
       }
     } catch (error) {
-      console.log(error)
+     
     }
   }
   if (user) {
