@@ -16,9 +16,8 @@ function Home() {
   const ENDPT = API_BASE_URL
   useEffect(() => {
     socket = io(ENDPT)
-   
+
     return () => {
-     
       socket.disconnect()
       socket.off()
     }

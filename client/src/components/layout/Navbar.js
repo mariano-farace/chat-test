@@ -10,15 +10,14 @@ function Navbar() {
 
   const logout = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/logout`, {
+      await fetch(`${API_BASE_URL}/logout`, {
         credentials: "include",
       })
-      const data = res.json()
-     
+
       localStorage.clear()
       setUser(null)
     } catch (error) {
-     
+      /* handle it */
     }
   }
 
