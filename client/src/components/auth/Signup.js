@@ -26,7 +26,7 @@ function Signup() {
         headers: { "Content-Type": "application/json" },
       })
       const data = await res.json()
-     
+
       if (data.errors) {
         setEmailError(data.errors.email)
         setNameError(data.errors.name)
@@ -36,7 +36,7 @@ function Signup() {
         setUser(data.user)
       }
     } catch (error) {
-     
+      /* handle it */
     }
   }
   if (user) {

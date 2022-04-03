@@ -7,20 +7,13 @@ function Redirect() {
   const { user, setUser } = useContext(UserContext)
 
   useEffect(() => {
-   
     async function getMe() {
-     
-     
-
       const response = await fetch(`${API_BASE_URL}/google-login-redirect`, {
         credentials: "include",
       })
-     
 
       const data = await response.json()
-     
 
-     
       setUser(data.user)
     }
 
@@ -30,9 +23,6 @@ function Redirect() {
   if (user) {
     localStorage.setItem("user", JSON.stringify(user))
 
-   
-
-   
     return <Navigate to="/" />
   }
 
