@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useContext } from "react"
 import { Navigate } from "react-router-dom"
-import GoogleButton from "react-google-button"
-import { UserContext } from "../../UserContext"
+import { GoogleLoginButton } from "react-social-login-buttons"
 import { API_BASE_URL } from "../../config"
+import { UserContext } from "../../UserContext"
+import "./Login.css"
 
 function Login() {
   const { user, setUser } = useContext(UserContext)
@@ -63,9 +64,9 @@ function Login() {
 
   return (
     <div className="row">
-      <h2>Login</h2>
+      <h2>Welcome</h2>
 
-      <form className="col s12" onSubmit={submitHandler}>
+      <form className="login-form" onSubmit={submitHandler}>
         <div className="row">
           <div className="input-field col s12">
             <input
@@ -96,8 +97,15 @@ function Login() {
           </div>
         </div>
 
-        <button className="btn">Login</button>
-        <GoogleButton onClick={createGoogleAuthLink} />
+        <button className="btn row" style={{ width: "100%" }}>
+          Login
+        </button>
+        <div className="text-center pt-3">Or</div>
+        <GoogleLoginButton
+          buttonText="Login"
+          className="mt-3 mb-3 "
+          onClick={createGoogleAuthLink}
+        />
       </form>
     </div>
   )
