@@ -58,7 +58,6 @@ function Home() {
                 <div className="row">
                   <div className="input-field col s12">
                     <input
-                      placeholder="Enter a room name"
                       id="room"
                       type="text"
                       required
@@ -66,7 +65,7 @@ function Home() {
                       value={room}
                       onChange={(e) => setRoom(e.target.value)}
                     />
-                    <label htmlFor="room">Room</label>
+                    <label htmlFor="room">Enter a room name</label>
                   </div>
                 </div>
                 <button className="btn">Create Room</button>
