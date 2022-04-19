@@ -46,7 +46,7 @@ function Signup() {
   return (
     <div className="row">
       <h2>Sign up</h2>
-      <form className="col s12" onSubmit={submitHandler}>
+      <form className="signup-form" onSubmit={submitHandler}>
         <div className="row">
           <div className="input-field col s12">
             <input
@@ -87,7 +87,9 @@ function Signup() {
           </div>
         </div>
 
-        <button className="btn">Sign up</button>
+        <button className="btn" style={{ width: "100%" }}>
+          Sign up
+        </button>
       </form>
     </div>
   )
