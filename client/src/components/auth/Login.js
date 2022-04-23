@@ -12,14 +12,12 @@ function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [nameError, setNameError] = useState("")
-  const [emailError, setEmailError] = useState("")
-  const [passwordError, setPasswordError] = useState("")
+  const [loginError, setLoginError] = useState("")
 
   const submitHandler = async (e) => {
     e.preventDefault()
-    setEmailError("")
     setNameError("")
-    setPasswordError("")
+    setLoginError("")
 
     try {
       const la_urls = `${API_BASE_URL}/login`
@@ -32,9 +30,8 @@ function Login() {
       const data = await res.json()
 
       if (data.errors) {
-        setEmailError(data.errors.email)
+        setLoginError(data.errors.login)
         setNameError(data.errors.name)
-        setPasswordError(data.errors.password)
       }
       if (data.user) {
         setUser(data.user)
@@ -76,8 +73,6 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-
-            <div className="email error red-text">{emailError}</div>
             <label htmlFor="email">Email</label>
           </div>
         </div>
@@ -92,7 +87,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <div className="password error red-text">{passwordError}</div>
+            <div className="password error red-text">{loginError}</div>
             <label htmlFor="password">Password</label>
           </div>
         </div>

@@ -8,12 +8,10 @@ const alertError = (err) => {
   console.log('err message', err.message);
   console.log('err code', err.code);
 
-  if (err.message === 'Incorrect email') {
-    errors.email = 'This email not found!';
+  if (err.message === 'Wrong email or password') {
+    errors.login = 'Wrong email or password';
   }
-  if (err.message === 'Incorrect password') {
-    errors.password = 'The password is incorrect!';
-  }
+
   if (err.code === 11000) {
     errors.email = 'This email already registered';
     return errors;
@@ -55,6 +53,7 @@ module.exports.login = async (req, res) => {
     setCookie(token, res);
     res.status(201).json({ user: { name: user.name, _id: user._id } });
   } catch (error) {
+    console.log('error', error);
     const errors = alertError(error);
     res.status(400).json({ errors });
   }
