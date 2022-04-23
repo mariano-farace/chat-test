@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/SPRINT5-ITAcademey-Chat-App/static/css/main.87daa17e.css",
-    "main.js": "/SPRINT5-ITAcademey-Chat-App/static/js/main.c692c8af.js",
+    "main.js": "/SPRINT5-ITAcademey-Chat-App/static/js/main.d34c8581.js",
     "index.html": "/SPRINT5-ITAcademey-Chat-App/index.html",
     "main.87daa17e.css.map": "/SPRINT5-ITAcademey-Chat-App/static/css/main.87daa17e.css.map",
-    "main.c692c8af.js.map": "/SPRINT5-ITAcademey-Chat-App/static/js/main.c692c8af.js.map"
+    "main.d34c8581.js.map": "/SPRINT5-ITAcademey-Chat-App/static/js/main.d34c8581.js.map"
   },
   "entrypoints": [
     "static/css/main.87daa17e.css",
-    "static/js/main.c692c8af.js"
+    "static/js/main.d34c8581.js"
   ]
 }
