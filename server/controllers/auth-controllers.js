@@ -53,9 +53,11 @@ module.exports.login = async (req, res) => {
     setCookie(token, res);
     res.status(201).json({ user: { name: user.name, _id: user._id } });
   } catch (error) {
-    console.log('error', error);
-    const errors = alertError(error);
-    res.status(200).json({ errors });
+    if (error.message === 'Wrong email or password') {
+      console.log('error', error);
+      const errors = alertError(error);
+      res.status(200).json({ errors });
+    }
   }
 };
 module.exports.logout = (req, res) => {
