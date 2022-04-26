@@ -7,6 +7,7 @@ import Input from "./Input"
 import Messages from "./Messages"
 import "./Chat.css"
 import { API_BASE_URL } from "../../config"
+import background from "../../assets/background-chat.jpg"
 
 let socket
 
@@ -49,7 +50,10 @@ function Chat() {
 
   return (
     <div className="outerContainer">
-      <div className="container">
+      <div
+        className="container"
+        style={{ backgroundImage: `url(${background})` }}
+      >
         <Messages messageLog={messageLog} user_id={user._id} />
         <Input
           message={message}
