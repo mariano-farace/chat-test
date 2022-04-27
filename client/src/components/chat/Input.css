@@ -1,8 +1,11 @@
 .form {
   display: flex;
-  border-top: 2px solid #d3d3d3;
-  background-color: #fafafa;
-}
+  background-color: transparent;
+  align-items: center;
+margin-left: 10px;
+margin-bottom: 5px;}
+
+
 
 .input {
   border: none;
@@ -10,6 +13,15 @@
   padding: 5%;
   width: 80%;
   font-size: 1.2em;
+  
+}
+#input2{
+  border-radius: 15px 50px 30px;
+  border: 2px solid #609;
+  padding: 20px; 
+  height: 15px; 
+  background-color: #fafafa;
+  flex-grow: 1;
 }
 
 input:focus,
