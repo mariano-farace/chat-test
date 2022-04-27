@@ -31,6 +31,7 @@ function Input({ message, setMessage, sendMessage }) {
             borderRadius: "80% ",
             width: "40px",
             height: "40px",
+            padding: "10px",
           }}
           fontSize="large"
         />
