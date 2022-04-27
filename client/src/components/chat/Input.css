@@ -19,10 +19,12 @@ margin-bottom: 5px;}
 #input2{
   border-radius: 15px 50px 30px;
   border: 2px solid #609;
-  padding: 20px; 
+  padding: 20px;
+  margin-top: 3px; 
   height: 15px; 
   background-color: #fafafa;
   flex-grow: 1;
+  box-shadow:none
 }
 
 input:focus,

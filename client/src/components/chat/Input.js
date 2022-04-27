@@ -27,11 +27,11 @@ function Input({ message, setMessage, sendMessage }) {
         <SendIcon
           style={{
             color: "white",
-            background: "blue",
+            background: "#609",
             borderRadius: "80% ",
-            width: "40px",
-            height: "40px",
-            padding: "10px",
+            width: "50px",
+            height: "100%",
+            padding: "12px",
           }}
           fontSize="large"
         />
