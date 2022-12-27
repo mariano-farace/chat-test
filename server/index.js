@@ -39,7 +39,7 @@ const io = new Server(httpServer, {
 // Will call the function on './socket-io', and pass io as argument
 require('./socket-io')(io);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 httpServer.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });

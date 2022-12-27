@@ -1,3 +1,5 @@
+# toml file for deployment on fly.io , it has the db key
+*.toml
 # Logs
 logs
 *.log
